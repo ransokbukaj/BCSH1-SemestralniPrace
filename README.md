@@ -1,1 +1,1 @@
-# SemestralniPrace
+# BCSH1 - Semestrální Práce
