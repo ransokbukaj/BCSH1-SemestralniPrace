@@ -1,24 +1,24 @@
 ﻿using SemestralniPrace.Model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SQLite;
-using System.Configuration;
-using System.Data;
 
 namespace SemestralniPrace.Repository
 {
-    public class ArtistRepository : IRepository<Artist>
+    public class TechniqueRepository : IRepository<BaseModel>
     {
-        public List<Artist> GetList(BaseModel filter)
+        public List<BaseModel> GetList(BaseModel filter)
         {
             using var connection = new SQLiteConnection(LoadConnectionString());
             connection.Open();
 
             using var command = connection.CreateCommand();
-            var query = "SELECT * FROM Artists";
+            var query = "SELECT * FROM Techniques";
             var conditions = new List<string>();
 
             if (filter is Artist artistFilter)
@@ -27,24 +27,6 @@ namespace SemestralniPrace.Repository
                 {
                     conditions.Add("Name = @Name");
                     command.Parameters.AddWithValue("@Name", artistFilter.Name);
-                }
-
-                if (!string.IsNullOrWhiteSpace(artistFilter.Surname))
-                {
-                    conditions.Add("Surname = @Surname");
-                    command.Parameters.AddWithValue("@Surname", artistFilter.Surname);
-                }
-
-                if (artistFilter.BirthDate != DateTime.MinValue)
-                {
-                    conditions.Add("BirthDate = @BirthDate");
-                    command.Parameters.AddWithValue("@BirthDate", artistFilter.BirthDate);
-                }
-
-                if (artistFilter.DeathDate != null)
-                {
-                    conditions.Add("DeathDate = @DeathDate");
-                    command.Parameters.AddWithValue("@DeathDate", artistFilter.DeathDate);
                 }
 
                 if (!string.IsNullOrWhiteSpace(artistFilter.Description))
@@ -61,71 +43,62 @@ namespace SemestralniPrace.Repository
 
             command.CommandText = query;
 
-            var artists = new List<Artist>();
+            var techniques = new List<BaseModel>();
             using var reader = command.ExecuteReader();
 
             while (reader.Read())
             {
-                artists.Add(new Artist(
+                techniques.Add(new BaseModel(
                     reader.GetInt32("Id"),
                     reader.GetString("Name"),
-                    reader.GetString("Surname"),
-                    reader.GetDateTime("BirthDate"),
-                    reader.IsDBNull("DeathDate") ? null : reader.GetDateTime("DeathDate"),
                     reader.IsDBNull("Description") ? null : reader.GetString("Description")
                 ));
             }
 
-            return artists;
+            return techniques;
         }
 
-        public Artist? Get(int id)
+        public BaseModel Get(int id)
         {
             using var connection = new SQLiteConnection(LoadConnectionString());
             connection.Open();
 
             using var command = connection.CreateCommand();
-            command.CommandText = "SELECT * FROM Artists WHERE Id = @Id";
+            command.CommandText = "SELECT * FROM Techniques WHERE Id = @Id";
             command.Parameters.AddWithValue("@Id", id);
 
             using var reader = command.ExecuteReader();
 
             if (!reader.Read()) return null;
 
-            return new Artist(
+            return new BaseModel(
                 reader.GetInt32(reader.GetOrdinal("Id")),
                 reader.GetString(reader.GetOrdinal("Name")),
-                reader.GetString(reader.GetOrdinal("Surname")),
-                reader.GetDateTime(reader.GetOrdinal("BirthDate")),
-                reader.IsDBNull(reader.GetOrdinal("DeathDate")) ? null : reader.GetDateTime(reader.GetOrdinal("DeathDate")),
                 reader.IsDBNull(reader.GetOrdinal("Description")) ? null : reader.GetString(reader.GetOrdinal("Description"))
             );
         }
 
-        public bool Save(Artist artist)
+        public bool Save(BaseModel techniques)
         {
-            if (artist == null) return false;
+            if (techniques == null) return false;
 
             using var connection = new SQLiteConnection(LoadConnectionString());
             connection.Open();
 
             using var command = connection.CreateCommand();
 
-            if (artist.Id == 0)
+            if (techniques.Id == 0)
             {
-                command.CommandText = "INSERT INTO Artists (Name, Surname, BirthDate, DeathDate, Description) VALUES (@Name, @Surname, @BirthDate, @DeathDate, @Description)";
+                command.CommandText = "INSERT INTO Techniques (Name, Description) VALUES (@Name, @Description)";
             }
             else
             {
-                command.CommandText = "UPDATE Artists SET Name = @Name, Surname = @Surname, BirthDate = @BirthDate, DeathDate = @DeathDate, Description = @Description WHERE Id = @Id";
-                command.Parameters.AddWithValue("@Id", artist.Id);
+                command.CommandText = "UPDATE Techniques SET Name = @Name, Description = @Description WHERE Id = @Id";
+                command.Parameters.AddWithValue("@Id", techniques.Id);
             }
 
-            command.Parameters.AddWithValue("@Name", artist.Name);
-            command.Parameters.AddWithValue("@Surname", artist.Surname);
-            command.Parameters.AddWithValue("@BirthDate", artist.BirthDate);
-            command.Parameters.AddWithValue("@DeathDate", artist.DeathDate);
-            command.Parameters.AddWithValue("@Description", artist.Description);
+            command.Parameters.AddWithValue("@Name", techniques.Name);
+            command.Parameters.AddWithValue("@Description", techniques.Description);
 
             int rowsAffected = command.ExecuteNonQuery();
             return rowsAffected > 0;
@@ -137,7 +110,7 @@ namespace SemestralniPrace.Repository
             connection.Open();
 
             using var command = connection.CreateCommand();
-            command.CommandText = "DELETE FROM Artists WHERE Id = @Id";
+            command.CommandText = "DELETE FROM Techniques WHERE Id = @Id";
             command.Parameters.AddWithValue("@Id", id);
 
             int rowsAffected = command.ExecuteNonQuery();
@@ -155,7 +128,7 @@ namespace SemestralniPrace.Repository
             {
                 var parts = line.Split('|');
 
-                if (parts.Length < 5)
+                if (parts.Length < 2)
                 {
                     success = false;
                     continue;
@@ -163,13 +136,10 @@ namespace SemestralniPrace.Repository
 
                 try
                 {
-                    var artist = new Artist
+                    var artist = new BaseModel
                     {
                         Name = parts[0].Trim(),
-                        Surname = parts[1].Trim(),
-                        BirthDate = DateTime.Parse(parts[2].Trim()),
-                        DeathDate = string.IsNullOrWhiteSpace(parts[3]) ? null : DateTime.Parse(parts[3].Trim()),
-                        Description = string.IsNullOrWhiteSpace(parts[4]) ? null : parts[4].Trim(),
+                        Description = string.IsNullOrWhiteSpace(parts[1]) ? null : parts[1].Trim(),
                     };
                     success &= Save(artist);
                 }
@@ -186,18 +156,15 @@ namespace SemestralniPrace.Repository
         {
             try
             {
-                var artists = GetList(filter);
+                var techniques = GetList(filter);
                 using var writer = new StreamWriter(filePath, false, Encoding.UTF8);
 
-                foreach (var artist in artists)
+                foreach (var technique in techniques)
                 {
                     var line = string.Join("|",
                     [
-                        artist.Name,
-                        artist.Surname,
-                        artist.BirthDate.ToString("yyyy-MM-dd"),
-                        artist.DeathDate?.ToString("yyyy-MM-dd") ?? "",
-                        artist.Description,
+                        technique.Name,
+                        technique.Description,
                     ]);
                     writer.WriteLine(line);
                 }
