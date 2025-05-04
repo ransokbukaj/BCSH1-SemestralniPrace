@@ -137,11 +137,17 @@ namespace SemestralniPrace.Repository
             connection.Open();
 
             using var command = connection.CreateCommand();
-            command.CommandText = "DELETE FROM Artists WHERE Id = @Id";
+            command.CommandText = "SELECT COUNT(*) FROM Artworks WHERE ArtistId = @Id";
             command.Parameters.AddWithValue("@Id", id);
 
-            int rowsAffected = command.ExecuteNonQuery();
-            return rowsAffected > 0;
+            var result = command.ExecuteScalar();
+            int count = (result == null || result == DBNull.Value) ? 0 : Convert.ToInt32(result);
+
+            if (count > 0) return false;
+
+            command.CommandText = "DELETE FROM Artists WHERE Id = @Id";
+            command.ExecuteNonQuery();
+            return true;
         }
 
         public bool ImportCsv(string filePath)

@@ -16,13 +16,12 @@ namespace SemestralniPrace
 {
     public partial class ArtistsUserControl : UserControl
     {
-        private IRepository<Artist> _artistRepository;
-
+        private ArtistRepository artistRepository;
         private Artist artistFilter;
 
         public ArtistsUserControl()
         {
-            _artistRepository = new ArtistRepository();
+            artistRepository = new ArtistRepository();
 
             InitializeComponent();
             Resize += ArtistsUserControl_Resize;
@@ -34,6 +33,7 @@ namespace SemestralniPrace
             listView.Columns.Add("Death Date");
             listView.Columns.Add("Description");
             listView.FullRowSelect = true;
+            listView.KeyDown += ListView_KeyDown;
 
             RefreshListView();
         }
@@ -41,7 +41,7 @@ namespace SemestralniPrace
         private void RefreshListView()
         {
             listView.Items.Clear();
-            var artists = _artistRepository.GetList(artistFilter);
+            var artists = artistRepository.GetList(artistFilter);
 
             foreach (var artist in artists)
             {
@@ -73,6 +73,29 @@ namespace SemestralniPrace
             SetEqualColumnWidths();
         }
 
+        private void ListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.A:
+                    addMenuItem_Click(sender, e);
+                    break;
+                case Keys.E:
+                    editMenuItem_Click(sender, e);
+                    break;
+                case Keys.D:
+                    deleteMenuItem_Click(sender, e);
+                    break;
+                case Keys.F:
+                    filterMenuItem_Click(sender, e);
+                    break;
+                default:
+                    return;
+            }
+
+            e.Handled = true;
+        }
+
         private void addMenuItem_Click(object sender, EventArgs e)
         {
             ArtistEditForm dialog = new ArtistEditForm(null);
@@ -80,7 +103,7 @@ namespace SemestralniPrace
 
             if (dialogResult == DialogResult.OK)
             {
-                _artistRepository.Save(dialog.Artist);
+                artistRepository.Save(dialog.Artist);
                 RefreshListView();
             }
         }
@@ -89,12 +112,12 @@ namespace SemestralniPrace
         {
             if (listView.SelectedItems.Count > 0)
             {
-                ArtistEditForm dialog = new ArtistEditForm(_artistRepository.Get((int)listView.SelectedItems[0].Tag));
+                ArtistEditForm dialog = new ArtistEditForm(artistRepository.Get((int)listView.SelectedItems[0].Tag));
                 DialogResult dialogResult = dialog.ShowDialog();
 
                 if (dialogResult == DialogResult.OK)
                 {
-                    _artistRepository.Save(dialog.Artist);
+                    artistRepository.Save(dialog.Artist);
                     RefreshListView();
                 }
             }
@@ -110,7 +133,10 @@ namespace SemestralniPrace
                 {
                     foreach (ListViewItem item in listView.SelectedItems)
                     {
-                        _artistRepository.Delete((int)item.Tag);
+                        if (artistRepository.Delete((int)item.Tag))
+                        {
+                            MessageBox.Show($"{item.Text} {item.SubItems[1].Text} could not be deleted due to being asigned to existing artworks.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
                     }
                 }
 
@@ -137,7 +163,7 @@ namespace SemestralniPrace
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                bool success = _artistRepository.ImportCsv(openFileDialog.FileName);
+                bool success = artistRepository.ImportCsv(openFileDialog.FileName);
 
                 if (success)
                 {
@@ -164,7 +190,7 @@ namespace SemestralniPrace
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                bool success = _artistRepository.ExportCsv(saveFileDialog.FileName, artistFilter);
+                bool success = artistRepository.ExportCsv(saveFileDialog.FileName, artistFilter);
 
                 if (success)
                 {

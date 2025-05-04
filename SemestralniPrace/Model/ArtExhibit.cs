@@ -9,6 +9,13 @@ namespace SemestralniPrace.Model
 {
     public class ArtExhibit : BaseModel
     {
-        public ArtExhibit(int id, string name, string description) : base(id, name, description) { }
+        public DateTime StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+
+        public ArtExhibit(int id, string name, string description, DateTime startDate, DateTime? endDate) : base(id, name, description)
+        {
+            StartDate = startDate;
+            EndDate = endDate;
+        }
     }
 }

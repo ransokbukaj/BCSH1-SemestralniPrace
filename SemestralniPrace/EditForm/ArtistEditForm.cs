@@ -19,6 +19,9 @@ namespace SemestralniPrace.EditForm
         public ArtistEditForm(Artist artist)
         {
             InitializeComponent();
+            AcceptButton = btnOk;
+            CancelButton = btnCancel;
+
             Artist = artist;
 
             if (Artist != null && Artist.Id != 0)
@@ -37,6 +40,16 @@ namespace SemestralniPrace.EditForm
 
                 textBoxDescription.Text = Artist.Description;
             }
+
+            textBoxName.TextChanged += (s, e) => UpdateOkButtonState();
+            textBoxSurname.TextChanged += (s, e) => UpdateOkButtonState();
+
+            UpdateOkButtonState();
+        }
+
+        private void UpdateOkButtonState()
+        {
+            btnOk.Enabled = !string.IsNullOrWhiteSpace(textBoxName.Text) && !string.IsNullOrWhiteSpace(textBoxSurname.Text);
         }
 
         private void btnOk_Click(object sender, EventArgs e)
