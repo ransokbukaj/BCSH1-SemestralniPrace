@@ -12,6 +12,8 @@ namespace SemestralniPrace.Model
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
+        public ArtExhibit() { }
+
         public ArtExhibit(int id, string name, string description, DateTime startDate, DateTime? endDate) : base(id, name, description)
         {
             StartDate = startDate;

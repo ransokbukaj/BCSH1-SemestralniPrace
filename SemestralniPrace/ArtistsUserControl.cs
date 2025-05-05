@@ -1,4 +1,5 @@
 ﻿using SemestralniPrace.EditForm;
+using SemestralniPrace.FilterForm;
 using SemestralniPrace.Model;
 using SemestralniPrace.Repository;
 using System;
@@ -7,7 +8,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,6 +22,7 @@ namespace SemestralniPrace
         public ArtistsUserControl()
         {
             artistRepository = new ArtistRepository();
+            artistFilter = new Artist();
 
             InitializeComponent();
             Resize += ArtistsUserControl_Resize;
@@ -83,6 +84,7 @@ namespace SemestralniPrace
                 case Keys.E:
                     editMenuItem_Click(sender, e);
                     break;
+                case Keys.Delete:
                 case Keys.D:
                     deleteMenuItem_Click(sender, e);
                     break;
@@ -121,6 +123,10 @@ namespace SemestralniPrace
                     RefreshListView();
                 }
             }
+            else
+            {
+                MessageBox.Show("No artist has been selected.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void deleteMenuItem_Click(object sender, EventArgs e)
@@ -133,7 +139,7 @@ namespace SemestralniPrace
                 {
                     foreach (ListViewItem item in listView.SelectedItems)
                     {
-                        if (artistRepository.Delete((int)item.Tag))
+                        if (!artistRepository.Delete((int)item.Tag))
                         {
                             MessageBox.Show($"{item.Text} {item.SubItems[1].Text} could not be deleted due to being asigned to existing artworks.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
@@ -150,7 +156,14 @@ namespace SemestralniPrace
 
         private void filterMenuItem_Click(object sender, EventArgs e)
         {
-            RefreshListView();
+            ArtistFilterForm dialog = new ArtistFilterForm(artistFilter);
+            DialogResult dialogResult = dialog.ShowDialog();
+
+            if (dialogResult == DialogResult.OK)
+            {
+                artistFilter = dialog.ArtistFilter;
+                RefreshListView();
+            }
         }
 
         private void importCsvMenuItem_Click(object sender, EventArgs e)

@@ -52,7 +52,7 @@
             // 
             leftMenuStrip.Dock = DockStyle.Left;
             leftMenuStrip.ImageScalingSize = new Size(20, 20);
-            leftMenuStrip.Items.AddRange(new ToolStripItem[] { artistsMenuItem, artworksMenuItem, artExhibitsMenuItem, substratesMenuItem, techniquesMenuItem, stylesMenuItem });
+            leftMenuStrip.Items.AddRange(new ToolStripItem[] { artExhibitsMenuItem, artistsMenuItem, artworksMenuItem, stylesMenuItem, substratesMenuItem, techniquesMenuItem });
             leftMenuStrip.Location = new Point(0, 0);
             leftMenuStrip.Name = "leftMenuStrip";
             leftMenuStrip.Size = new Size(104, 453);

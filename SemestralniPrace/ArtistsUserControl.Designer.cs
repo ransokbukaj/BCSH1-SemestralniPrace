@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            listView = new ListView();
             bottomMenuStrip = new MenuStrip();
             addMenuItem = new ToolStripMenuItem();
             editMenuItem = new ToolStripMenuItem();
@@ -36,17 +35,9 @@
             filterMenuItem = new ToolStripMenuItem();
             importCsvMenuItem = new ToolStripMenuItem();
             exportCsvMenuItem = new ToolStripMenuItem();
+            listView = new ListView();
             bottomMenuStrip.SuspendLayout();
             SuspendLayout();
-            // 
-            // listView
-            // 
-            listView.Dock = DockStyle.Fill;
-            listView.Location = new Point(0, 0);
-            listView.Name = "listView";
-            listView.Size = new Size(680, 422);
-            listView.TabIndex = 0;
-            listView.UseCompatibleStateImageBehavior = false;
             // 
             // bottomMenuStrip
             // 
@@ -56,8 +47,8 @@
             bottomMenuStrip.Location = new Point(0, 422);
             bottomMenuStrip.Name = "bottomMenuStrip";
             bottomMenuStrip.Size = new Size(680, 28);
-            bottomMenuStrip.TabIndex = 8;
-            bottomMenuStrip.Text = "menuStrip2";
+            bottomMenuStrip.TabIndex = 2;
+            bottomMenuStrip.Text = "bottomMenuStrip";
             // 
             // addMenuItem
             // 
@@ -101,6 +92,15 @@
             exportCsvMenuItem.Text = "Export CSV";
             exportCsvMenuItem.Click += exportCsvMenuItem_Click;
             // 
+            // listView
+            // 
+            listView.Dock = DockStyle.Fill;
+            listView.Location = new Point(0, 0);
+            listView.Name = "listView";
+            listView.Size = new Size(680, 422);
+            listView.TabIndex = 3;
+            listView.UseCompatibleStateImageBehavior = false;
+            // 
             // ArtistsUserControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -117,7 +117,6 @@
 
         #endregion
 
-        private ListView listView;
         private MenuStrip bottomMenuStrip;
         private ToolStripMenuItem addMenuItem;
         private ToolStripMenuItem editMenuItem;
@@ -125,5 +124,6 @@
         private ToolStripMenuItem filterMenuItem;
         private ToolStripMenuItem importCsvMenuItem;
         private ToolStripMenuItem exportCsvMenuItem;
+        private ListView listView;
     }
 }

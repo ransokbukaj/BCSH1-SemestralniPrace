@@ -28,17 +28,96 @@
         /// </summary>
         private void InitializeComponent()
         {
+            listView = new ListView();
+            bottomMenuStrip = new MenuStrip();
+            addMenuItem = new ToolStripMenuItem();
+            editMenuItem = new ToolStripMenuItem();
+            deleteMenuItem = new ToolStripMenuItem();
+            filterMenuItem = new ToolStripMenuItem();
+            importCsvMenuItem = new ToolStripMenuItem();
+            exportCsvMenuItem = new ToolStripMenuItem();
+            bottomMenuStrip.SuspendLayout();
             SuspendLayout();
+            // 
+            // listView
+            // 
+            listView.Dock = DockStyle.Fill;
+            listView.Location = new Point(0, 0);
+            listView.Name = "listView";
+            listView.Size = new Size(680, 422);
+            listView.TabIndex = 4;
+            listView.UseCompatibleStateImageBehavior = false;
+            // 
+            // bottomMenuStrip
+            // 
+            bottomMenuStrip.Dock = DockStyle.Bottom;
+            bottomMenuStrip.ImageScalingSize = new Size(20, 20);
+            bottomMenuStrip.Items.AddRange(new ToolStripItem[] { addMenuItem, editMenuItem, deleteMenuItem, filterMenuItem, importCsvMenuItem, exportCsvMenuItem });
+            bottomMenuStrip.Location = new Point(0, 422);
+            bottomMenuStrip.Name = "bottomMenuStrip";
+            bottomMenuStrip.Size = new Size(680, 28);
+            bottomMenuStrip.TabIndex = 3;
+            bottomMenuStrip.Text = "bottomMenuStrip";
+            // 
+            // addMenuItem
+            // 
+            addMenuItem.Name = "addMenuItem";
+            addMenuItem.Size = new Size(51, 24);
+            addMenuItem.Text = "Add";
+            // 
+            // editMenuItem
+            // 
+            editMenuItem.Name = "editMenuItem";
+            editMenuItem.Size = new Size(49, 24);
+            editMenuItem.Text = "Edit";
+            // 
+            // deleteMenuItem
+            // 
+            deleteMenuItem.Name = "deleteMenuItem";
+            deleteMenuItem.Size = new Size(67, 24);
+            deleteMenuItem.Text = "Delete";
+            // 
+            // filterMenuItem
+            // 
+            filterMenuItem.Name = "filterMenuItem";
+            filterMenuItem.Size = new Size(56, 24);
+            filterMenuItem.Text = "Filter";
+            // 
+            // importCsvMenuItem
+            // 
+            importCsvMenuItem.Name = "importCsvMenuItem";
+            importCsvMenuItem.Size = new Size(98, 24);
+            importCsvMenuItem.Text = "Import CSV";
+            // 
+            // exportCsvMenuItem
+            // 
+            exportCsvMenuItem.Name = "exportCsvMenuItem";
+            exportCsvMenuItem.Size = new Size(96, 24);
+            exportCsvMenuItem.Text = "Export CSV";
             // 
             // ArtworksUserControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(listView);
+            Controls.Add(bottomMenuStrip);
             Name = "ArtworksUserControl";
             Size = new Size(680, 450);
+            bottomMenuStrip.ResumeLayout(false);
+            bottomMenuStrip.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private ListView listView;
+        private MenuStrip bottomMenuStrip;
+        private ToolStripMenuItem addMenuItem;
+        private ToolStripMenuItem editMenuItem;
+        private ToolStripMenuItem deleteMenuItem;
+        private ToolStripMenuItem filterMenuItem;
+        private ToolStripMenuItem importCsvMenuItem;
+        private ToolStripMenuItem exportCsvMenuItem;
     }
 }

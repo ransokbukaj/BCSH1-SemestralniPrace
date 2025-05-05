@@ -5,7 +5,7 @@ namespace SemestralniPrace
         public MainForm()
         {
             InitializeComponent();
-            LoadUserControl(new ArtistsUserControl());
+            LoadUserControl(new ArtExhibitsUserControl());
         }
 
         private void LoadUserControl(UserControl userControl)
@@ -13,6 +13,11 @@ namespace SemestralniPrace
             contentPanel.Controls.Clear();
             userControl.Dock = DockStyle.Fill;
             contentPanel.Controls.Add(userControl);
+        }
+
+        private void artExhibitsMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadUserControl(new ArtExhibitsUserControl());
         }
 
         private void artistsMenuItem_Click(object sender, EventArgs e)
@@ -25,9 +30,9 @@ namespace SemestralniPrace
             LoadUserControl(new ArtworksUserControl());
         }
 
-        private void artExhibitsMenuItem_Click(object sender, EventArgs e)
+        private void stylesMenuItem_Click(object sender, EventArgs e)
         {
-            LoadUserControl(new ArtExhibitsUserControl());
+            LoadUserControl(new StylesUserControl());
         }
 
         private void substratesMenuItem_Click(object sender, EventArgs e)
@@ -38,11 +43,6 @@ namespace SemestralniPrace
         private void techniquesMenuItem_Click(object sender, EventArgs e)
         {
             LoadUserControl(new TechniquesUserControl());
-        }
-
-        private void stylesMenuItem_Click(object sender, EventArgs e)
-        {
-            LoadUserControl(new StylesUserControl());
         }
     }
 }

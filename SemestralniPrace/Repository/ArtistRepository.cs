@@ -38,13 +38,13 @@ namespace SemestralniPrace.Repository
                 if (artistFilter.BirthDate != DateTime.MinValue)
                 {
                     conditions.Add("BirthDate = @BirthDate");
-                    command.Parameters.AddWithValue("@BirthDate", artistFilter.BirthDate);
+                    command.Parameters.AddWithValue("@BirthDate", artistFilter.BirthDate.Date);
                 }
 
                 if (artistFilter.DeathDate != null)
                 {
                     conditions.Add("DeathDate = @DeathDate");
-                    command.Parameters.AddWithValue("@DeathDate", artistFilter.DeathDate);
+                    command.Parameters.AddWithValue("@DeathDate", artistFilter.DeathDate.Value.Date);
                 }
 
                 if (!string.IsNullOrWhiteSpace(artistFilter.Description))
@@ -72,7 +72,7 @@ namespace SemestralniPrace.Repository
                     reader.GetString("Surname"),
                     reader.GetDateTime("BirthDate"),
                     reader.IsDBNull("DeathDate") ? null : reader.GetDateTime("DeathDate"),
-                    reader.IsDBNull("Description") ? null : reader.GetString("Description")
+                    reader.GetString("Description")
                 ));
             }
 
@@ -123,8 +123,8 @@ namespace SemestralniPrace.Repository
 
             command.Parameters.AddWithValue("@Name", artist.Name);
             command.Parameters.AddWithValue("@Surname", artist.Surname);
-            command.Parameters.AddWithValue("@BirthDate", artist.BirthDate);
-            command.Parameters.AddWithValue("@DeathDate", artist.DeathDate);
+            command.Parameters.AddWithValue("@BirthDate", artist.BirthDate.Date);
+            command.Parameters.AddWithValue("@DeathDate", artist.DeathDate.HasValue ? artist.DeathDate.Value.Date : DBNull.Value);
             command.Parameters.AddWithValue("@Description", artist.Description);
 
             int rowsAffected = command.ExecuteNonQuery();
@@ -175,7 +175,7 @@ namespace SemestralniPrace.Repository
                         Surname = parts[1].Trim(),
                         BirthDate = DateTime.Parse(parts[2].Trim()),
                         DeathDate = string.IsNullOrWhiteSpace(parts[3]) ? null : DateTime.Parse(parts[3].Trim()),
-                        Description = string.IsNullOrWhiteSpace(parts[4]) ? null : parts[4].Trim(),
+                        Description = parts[4].Trim(),
                     };
                     success &= Save(artist);
                 }

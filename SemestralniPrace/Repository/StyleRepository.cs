@@ -21,18 +21,18 @@ namespace SemestralniPrace.Repository
             var query = "SELECT * FROM Styles";
             var conditions = new List<string>();
 
-            if (filter is Artist artistFilter)
+            if (filter != null)
             {
-                if (!string.IsNullOrWhiteSpace(artistFilter.Name))
+                if (!string.IsNullOrWhiteSpace(filter.Name))
                 {
                     conditions.Add("Name = @Name");
-                    command.Parameters.AddWithValue("@Name", artistFilter.Name);
+                    command.Parameters.AddWithValue("@Name", filter.Name);
                 }
 
-                if (!string.IsNullOrWhiteSpace(artistFilter.Description))
+                if (!string.IsNullOrWhiteSpace(filter.Description))
                 {
                     conditions.Add("Description = @Description");
-                    command.Parameters.AddWithValue("@Description", artistFilter.Description);
+                    command.Parameters.AddWithValue("@Description", filter.Description);
                 }
 
                 if (conditions.Count > 0)
@@ -51,7 +51,7 @@ namespace SemestralniPrace.Repository
                 styles.Add(new BaseModel(
                     reader.GetInt32("Id"),
                     reader.GetString("Name"),
-                    reader.IsDBNull("Description") ? null : reader.GetString("Description")
+                    reader.GetString("Description")
                 ));
             }
 
@@ -145,7 +145,7 @@ namespace SemestralniPrace.Repository
                     var artist = new BaseModel
                     {
                         Name = parts[0].Trim(),
-                        Description = string.IsNullOrWhiteSpace(parts[1]) ? null : parts[1].Trim(),
+                        Description = parts[1].Trim(),
                     };
                     success &= Save(artist);
                 }

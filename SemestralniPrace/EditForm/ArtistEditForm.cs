@@ -35,7 +35,7 @@ namespace SemestralniPrace.EditForm
                 {
                     checkBoxHasDied.Checked = true;
                     deathDatePicker.Enabled = true;
-                    deathDatePicker.Value = (DateTime)Artist.DeathDate;
+                    deathDatePicker.Value = Artist.DeathDate.Value.Date;
                 }
 
                 textBoxDescription.Text = Artist.Description;

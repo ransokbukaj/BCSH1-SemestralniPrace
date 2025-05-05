@@ -155,7 +155,7 @@
             checkBoxHasDied.UseVisualStyleBackColor = true;
             checkBoxHasDied.CheckedChanged += checkBoxHasDied_CheckedChanged;
             // 
-            // ArtistForm
+            // ArtistEditForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -175,7 +175,7 @@
             Controls.Add(textBoxName);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            Name = "ArtistForm";
+            Name = "ArtistEditForm";
             ShowIcon = false;
             Text = "Add Artist";
             ResumeLayout(false);
