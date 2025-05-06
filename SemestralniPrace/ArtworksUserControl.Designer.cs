@@ -64,36 +64,42 @@
             addMenuItem.Name = "addMenuItem";
             addMenuItem.Size = new Size(51, 24);
             addMenuItem.Text = "Add";
+            addMenuItem.Click += addMenuItem_Click;
             // 
             // editMenuItem
             // 
             editMenuItem.Name = "editMenuItem";
             editMenuItem.Size = new Size(49, 24);
             editMenuItem.Text = "Edit";
+            editMenuItem.Click += editMenuItem_Click;
             // 
             // deleteMenuItem
             // 
             deleteMenuItem.Name = "deleteMenuItem";
             deleteMenuItem.Size = new Size(67, 24);
             deleteMenuItem.Text = "Delete";
+            deleteMenuItem.Click += deleteMenuItem_Click;
             // 
             // filterMenuItem
             // 
             filterMenuItem.Name = "filterMenuItem";
             filterMenuItem.Size = new Size(56, 24);
             filterMenuItem.Text = "Filter";
+            filterMenuItem.Click += filterMenuItem_Click;
             // 
             // importCsvMenuItem
             // 
             importCsvMenuItem.Name = "importCsvMenuItem";
             importCsvMenuItem.Size = new Size(98, 24);
             importCsvMenuItem.Text = "Import CSV";
+            importCsvMenuItem.Click += importCsvMenuItem_Click;
             // 
             // exportCsvMenuItem
             // 
             exportCsvMenuItem.Name = "exportCsvMenuItem";
             exportCsvMenuItem.Size = new Size(96, 24);
             exportCsvMenuItem.Text = "Export CSV";
+            exportCsvMenuItem.Click += exportCsvMenuItem_Click;
             // 
             // ArtworksUserControl
             // 

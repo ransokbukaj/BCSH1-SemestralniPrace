@@ -13,7 +13,7 @@ namespace SemestralniPrace.FilterForm
 {
     public partial class ArtExhibitFilterForm : Form
     {
-        public ArtExhibit ArtExhibitFilter { set; get; }
+        public ArtExhibit ArtExhibitFilter;
 
         public ArtExhibitFilterForm(ArtExhibit artExhibitFilter)
         {

@@ -13,6 +13,8 @@ namespace SemestralniPrace.Model
         public DateTime BirthDate { get; set; }
         public DateTime? DeathDate { get; set; }
 
+        public string FullName => $"{Name} {Surname}";
+
         public Artist() { }
 
         public Artist(int id, string name, string surname, DateTime birthDate, DateTime? deathDate, string? description) : base(id, name, description)

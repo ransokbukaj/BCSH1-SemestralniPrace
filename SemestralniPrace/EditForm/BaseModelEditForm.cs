@@ -13,7 +13,7 @@ namespace SemestralniPrace.EditForm
 {
     public partial class BaseModelEditForm : Form
     {
-        public BaseModel BaseModel { set; get; }
+        public BaseModel BaseModel;
 
         public BaseModelEditForm(BaseModel baseModel, string title)
         {

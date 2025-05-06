@@ -13,8 +13,7 @@ namespace SemestralniPrace.EditForm
 {
     public partial class ArtExhibitEditForm : Form
     {
-        public ArtExhibit ArtExhibit { set; get; }
-
+        public ArtExhibit ArtExhibit;
 
         public ArtExhibitEditForm(ArtExhibit artExhibit)
         {

@@ -74,31 +74,31 @@ namespace SemestralniPrace.Repository
                     command.Parameters.AddWithValue("@DatePublished", artworkFilter.DatePublished.Date);
                 }
 
-                if (artworkFilter.Style != null)
+                if (artworkFilter.Style != null && artworkFilter.Style.Id > 0)
                 {
                     conditions.Add("StyleId = @StyleId");
                     command.Parameters.AddWithValue("@StyleId", artworkFilter.Style.Id);
                 }
 
-                if (artworkFilter.Substrate != null)
+                if (artworkFilter.Substrate != null && artworkFilter.Substrate.Id > 0)
                 {
                     conditions.Add("SubstrateId = @SubstrateId");
                     command.Parameters.AddWithValue("@SubstrateId", artworkFilter.Substrate.Id);
                 }
 
-                if (artworkFilter.Technique != null)
+                if (artworkFilter.Technique != null && artworkFilter.Technique.Id > 0)
                 {
                     conditions.Add("TechniqueId = @TechniqueId");
                     command.Parameters.AddWithValue("@TechniqueId", artworkFilter.Technique.Id);
                 }
 
-                if (artworkFilter.Artist != null)
+                if (artworkFilter.Artist != null && artworkFilter.Artist.Id > 0)
                 {
                     conditions.Add("ArtistId = @ArtistId");
                     command.Parameters.AddWithValue("@ArtistId", artworkFilter.Artist.Id);
                 }
 
-                if (artworkFilter.ArtExhibit != null)
+                if (artworkFilter.ArtExhibit != null && artworkFilter.ArtExhibit.Id > 0)
                 {
                     conditions.Add("ArtExhibitId = @ArtExhibitId");
                     command.Parameters.AddWithValue("@ArtExhibitId", artworkFilter.ArtExhibit.Id);
@@ -179,7 +179,7 @@ namespace SemestralniPrace.Repository
             }
             else
             {
-                command.CommandText = "UPDATE Artists SET Name = @Name, Description = @Description, Width = @Width, Height = @Height, DatePublished = @DatePublished, StyleId = @StyleId, SubstrateId = @SubstrateId, TechniqueId = @TechniqueId, ArtistId = @ArtistId, ArtExhibitId = @ArtExhibitId WHERE Id = @Id";
+                command.CommandText = "UPDATE Artworks SET Name = @Name, Description = @Description, Width = @Width, Height = @Height, DatePublished = @DatePublished, StyleId = @StyleId, SubstrateId = @SubstrateId, TechniqueId = @TechniqueId, ArtistId = @ArtistId, ArtExhibitId = @ArtExhibitId WHERE Id = @Id";
                 command.Parameters.AddWithValue("@Id", artwork.Id);
             }
 
@@ -192,7 +192,7 @@ namespace SemestralniPrace.Repository
             command.Parameters.AddWithValue("@SubstrateId", artwork.Substrate.Id);
             command.Parameters.AddWithValue("@TechniqueId", artwork.Technique.Id);
             command.Parameters.AddWithValue("@ArtistId", artwork.Artist.Id);
-            command.Parameters.AddWithValue("@ArtExhibit.Id", artwork.ArtExhibit?.Id);
+            command.Parameters.AddWithValue("@ArtExhibitId", artwork.ArtExhibit?.Id);
 
             int rowsAffected = command.ExecuteNonQuery();
             return rowsAffected > 0;

@@ -14,7 +14,7 @@ namespace SemestralniPrace.EditForm
 {
     public partial class ArtistEditForm : Form
     {
-        public Artist Artist { set; get; }
+        public Artist Artist;
 
         public ArtistEditForm(Artist artist)
         {

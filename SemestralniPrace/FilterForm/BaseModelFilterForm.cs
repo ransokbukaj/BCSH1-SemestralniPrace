@@ -13,7 +13,7 @@ namespace SemestralniPrace.FilterForm
 {
     public partial class BaseModelFilterForm : Form
     {
-        public BaseModel BaseModelFilter { set; get; }
+        public BaseModel BaseModelFilter;
 
         public BaseModelFilterForm(BaseModel baseModel, string title)
         {
