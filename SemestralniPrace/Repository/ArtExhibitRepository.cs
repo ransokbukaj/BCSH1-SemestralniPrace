@@ -163,7 +163,7 @@ namespace SemestralniPrace.Repository
                     var artExhibit = new ArtExhibit
                     {
                         Name = parts[0].Trim(),
-                        Description = parts[4].Trim(),
+                        Description = parts[1].Trim(),
                         StartDate = DateTime.Parse(parts[2].Trim()),
                         EndDate = string.IsNullOrWhiteSpace(parts[3]) ? null : DateTime.Parse(parts[3].Trim()),
                     };
