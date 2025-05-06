@@ -240,7 +240,7 @@ namespace SemestralniPrace.Repository
                         Substrate = new BaseModel { Id = int.Parse(parts[6].Trim()) },
                         Technique = new BaseModel { Id = int.Parse(parts[7].Trim()) },
                         Artist = new Artist { Id = int.Parse(parts[8].Trim()) },
-                        ArtExhibit = string.IsNullOrWhiteSpace(parts[9]) ? null : new ArtExhibit { Id = int.Parse(parts[9].Trim()) },
+                        ArtExhibit = string.IsNullOrWhiteSpace(parts[9]) ? new ArtExhibit() : new ArtExhibit { Id = int.Parse(parts[9].Trim()) },
                     };
                     success &= Save(artwork);
                 }

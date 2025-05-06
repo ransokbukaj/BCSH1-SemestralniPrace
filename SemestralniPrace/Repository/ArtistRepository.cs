@@ -93,12 +93,12 @@ namespace SemestralniPrace.Repository
             if (!reader.Read()) return null;
 
             return new Artist(
-                reader.GetInt32(reader.GetOrdinal("Id")),
-                reader.GetString(reader.GetOrdinal("Name")),
-                reader.GetString(reader.GetOrdinal("Surname")),
-                reader.GetDateTime(reader.GetOrdinal("BirthDate")),
-                reader.IsDBNull(reader.GetOrdinal("DeathDate")) ? null : reader.GetDateTime(reader.GetOrdinal("DeathDate")),
-                reader.IsDBNull(reader.GetOrdinal("Description")) ? null : reader.GetString(reader.GetOrdinal("Description"))
+                reader.GetInt32("Id"),
+                reader.GetString("Name"),
+                reader.GetString("Surname"),
+                reader.GetDateTime("BirthDate"),
+                reader.IsDBNull("DeathDate") ? null : reader.GetDateTime("DeathDate"),
+                reader.GetString("Description")
             );
         }
 
